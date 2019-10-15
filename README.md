@@ -1,6 +1,6 @@
-# libc_mach
+# mach_info
 
-TODO: Write a description here
+Provides a wrapper api for the mach info calls available on darwin
 
 ## Installation
 
@@ -9,7 +9,7 @@ TODO: Write a description here
    ```yaml
    dependencies:
      libc_mach:
-       github: your-github-user/libc_mach
+       github: your-github-user/mach_info
    ```
 
 2. Run `shards install`
@@ -17,18 +17,37 @@ TODO: Write a description here
 ## Usage
 
 ```crystal
-require "libc_mach"
+require "mach_info"
+
+
+m = MachInfo.basic_host_info
+total_cpus = m.max_cpus
 ```
 
-TODO: Write usage instructions here
+This library adds the following Mach Info functions bindings
+
+* host_self
+* host_priv_self
+* host_info
+* host_statistics
+* host_statistics64
+* kernel_version
+* processor_set_default
+* host_processor_info
+* processor_set_info
+
+
+The Core Module adds several static lookup methods to fetch the different flavors of
+host_info, host_processor_info, and processor_set_info functions.
+
 
 ## Development
 
-TODO: Write development instructions here
+Install crystal, get cracking.
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/libc_mach/fork>)
+1. Fork it (<https://github.com/your-github-user/mach_info/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Mach do
+describe MachInfo do
   # TODO: Write tests
   it "can lookup basic host information" do
     port = LibC.host_new
@@ -71,43 +71,47 @@ describe Mach do
   it "can lookup vmstatistics64" do
     port = LibC.host_new
     count = LibC::HOST_VM_INFO64_COUNT
-    rc = LibC.host_statistics64_new(port,LibC::HOST_VM_INFO64,out info,pointerof(count))
+    rc = LibC.host_statistics64_new(port,LibC::HOST_VM_INFO64,out host_info_array,pointerof(count))
     rc.should eq 0
+    info = pointerof(host_info_array).as(Pointer(LibC::VmStatistics64)).value
     info.nil?.should eq(false)
     info.free_count.should be > 0
   end
 
   it "should provide a top level api for basic_host_info" do
-    info = Mach.basic_host_info
+    info = MachInfo.basic_host_info
     info.max_cpus.should be > 1
   end
 
   it "should provide a top level api for sched info" do
-    info = Mach.host_scheduling_info
+    info = MachInfo.host_scheduling_info
     info.min_timeout.should be > 1
   end
   it "should provide a top level api for basic_host_info" do
-    info = Mach.basic_host_info
+    info = MachInfo.basic_host_info
     info.max_cpus.should eq(6)
   end
   it "should provide a top level api for kernel_version" do
-    info = Mach.kernel_version
+    info = MachInfo.kernel_version
     info.includes?("Darwin").should eq(true)
   end
   it "should provide a top level api for host_load_info" do
-    info = Mach.host_load_info
+    info = MachInfo.host_load_info
     info.mach_factor[0].should be > 0
   end
+
   it "should provide a top level api for vm_info" do
-    info = Mach.vm_info
+    info = MachInfo.vm_info
     info.free_count.should be > 1
   end
+
   it "should provide a top level api for vm_info_64" do
-    info = Mach.vm_info_64
+    info = MachInfo.vm_info_64
     info.free_count.should be > 1
   end
+
   it "should provide a top level api for cpu_laod_info" do
-    info = Mach.host_cpu_load_info
+    info = MachInfo.host_cpu_load_info
     info.cpu_ticks[0].should be > 1
   end
 
@@ -116,21 +120,42 @@ describe Mach do
     count = 0
     rc = LibC.processor_info_new(port,LibC::PROCESSOR_BASIC_INFO, out pCount, out plist,pointerof(count))
     rc.should eq 0
-    list = Mach::MachArrayPtrConvertor(LibC::ProcessorBasicInfo).new.cast_to_array(plist,pCount)
-    #puts list.size
-    #puts count
-    #puts pCount
+    list = MachInfo::MachArrayPtrConvertor(LibC::ProcessorBasicInfo).new.cast_to_array(plist,pCount)
     (0..list.size-1).each do |i|
-        puts list[i]
+        list[i].running.should eq(true)
     end
-    #list = pointerof(plist).as(Pointer(LibC::ProcessorBasicInfoArray)).value
+  end
 
-    #puts pCount
-    #puts plist
-    #puts list[0]
-    #puts list[1]
-    #puts list[2]
-    #puts list[3]
+  it "should get a list of cpu load by processor" do
+    port = LibC.host_new
+    count = 0
+    rc = LibC.processor_info_new(port,LibC::PROCESSOR_CPU_LOAD_INFO, out pCount, out plist,pointerof(count))
+    rc.should eq 0
+    list = MachInfo::MachArrayPtrConvertor(LibC::ProcessorCpuLoadInfo).new.cast_to_array(plist,pCount)
+    (0..list.size-1).each do |i|
+        list[i].cpu_ticks.sum.should be > 100
+    end
+  end
+
+  it "should get processor set information" do
+    port = LibC.host_new
+    count = LibC::PROCESSOR_SET_BASIC_INFO_COUNT
+    LibC.get_default_processor_set(port, out h_port)
+    rc = LibC.processor_set_info_new(h_port,LibC::PROCESSOR_SET_BASIC_INFO, out kport,out host_info_array, pointerof(count))
+    info = MachInfo::MachArrayPtrConvertor(LibC::ProcessorSetBasicInfo).new.cast_to(host_info_array)
+    info.nil?.should eq(false)
+    rc.should eq 0
+    info.processor_count.should be > 1
+  end
+
+  it "should get processor set sched information" do
+    port = LibC.host_new
+    count = LibC::PROCESSOR_SET_SCHED_INFO_COUNT
+    LibC.get_default_processor_set(port, out h_port)
+    rc = LibC.processor_set_info_new(h_port,LibC::PROCESSOR_SET_SCHED_INFO, out kport,out host_info_array, pointerof(count))
+    info = MachInfo::MachArrayPtrConvertor(LibC::ProcessorSetSchedInfo).new.cast_to(host_info_array)
+    rc.should eq 0
+    info.policies.should be > 1
   end
 
 end

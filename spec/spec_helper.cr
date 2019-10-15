@@ -1,2 +1,2 @@
 require "spec"
-require "../src/libc_mach"
+require "../src/mach_info"
