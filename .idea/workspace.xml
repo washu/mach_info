@@ -24,9 +24,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72e0330c-5933-4cda-a204-2d1beb44fd66" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/mach/host_info.cr" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mach/processor_info.cr" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mach/types.cr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/libc_mach_spec.cr" beforeDir="false" afterPath="$PROJECT_DIR$/spec/libc_mach_spec.cr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/libc_mach.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/libc_mach.cr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mach/host_info.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/host_info.cr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mach/processor_info.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/processor_info.cr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mach/types.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/types.cr" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,6 +60,7 @@
   <component name="PropertiesComponent">
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.15.0" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -82,6 +86,46 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="All specs in libc_mach: libc_mach" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
+      <module name="libc_mach" />
+      <predefined_log_file enabled="true" id="RUBY_RSPEC" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="JRUBY_OPTS" value="-X+O" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="$MODULE_DIR$" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="'**/*_spec.rb'" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="ALL_IN_FOLDER" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_SPEC_RUNNER" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="RSpec.All specs in libc_mach: libc_mach" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpringUtil" SPRING_PRE_LOADER_OPTION="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -90,7 +134,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571065556907</updated>
-      <workItem from="1571065558159" duration="10083000" />
+      <workItem from="1571065558159" duration="20457000" />
     </task>
     <servers />
   </component>

@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe LibcMach do
+describe Mach do
   # TODO: Write tests
   it "can lookup basic host information" do
     port = LibC.host_new
@@ -76,4 +76,61 @@ describe LibcMach do
     info.nil?.should eq(false)
     info.free_count.should be > 0
   end
+
+  it "should provide a top level api for basic_host_info" do
+    info = Mach.basic_host_info
+    info.max_cpus.should be > 1
+  end
+
+  it "should provide a top level api for sched info" do
+    info = Mach.host_scheduling_info
+    info.min_timeout.should be > 1
+  end
+  it "should provide a top level api for basic_host_info" do
+    info = Mach.basic_host_info
+    info.max_cpus.should eq(6)
+  end
+  it "should provide a top level api for kernel_version" do
+    info = Mach.kernel_version
+    info.includes?("Darwin").should eq(true)
+  end
+  it "should provide a top level api for host_load_info" do
+    info = Mach.host_load_info
+    info.mach_factor[0].should be > 0
+  end
+  it "should provide a top level api for vm_info" do
+    info = Mach.vm_info
+    info.free_count.should be > 1
+  end
+  it "should provide a top level api for vm_info_64" do
+    info = Mach.vm_info_64
+    info.free_count.should be > 1
+  end
+  it "should provide a top level api for cpu_laod_info" do
+    info = Mach.host_cpu_load_info
+    info.cpu_ticks[0].should be > 1
+  end
+
+  it "should get a list of processors" do
+    port = LibC.host_new
+    count = 0
+    rc = LibC.processor_info_new(port,LibC::PROCESSOR_BASIC_INFO, out pCount, out plist,pointerof(count))
+    rc.should eq 0
+    list = Mach::MachArrayPtrConvertor(LibC::ProcessorBasicInfo).new.cast_to_array(plist,pCount)
+    #puts list.size
+    #puts count
+    #puts pCount
+    (0..list.size-1).each do |i|
+        puts list[i]
+    end
+    #list = pointerof(plist).as(Pointer(LibC::ProcessorBasicInfoArray)).value
+
+    #puts pCount
+    #puts plist
+    #puts list[0]
+    #puts list[1]
+    #puts list[2]
+    #puts list[3]
+  end
+
 end
