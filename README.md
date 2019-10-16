@@ -9,7 +9,7 @@ Provides a wrapper api for the mach info calls available on darwin
    ```yaml
    dependencies:
      libc_mach:
-       github: your-github-user/mach_info
+       github: washu/mach_info
    ```
 
 2. Run `shards install`
@@ -28,6 +28,7 @@ This library adds the following Mach Info functions bindings
 
 * host_self
 * host_priv_self
+* host_page_size
 * host_info
 * host_statistics
 * host_statistics64
@@ -47,7 +48,7 @@ Install crystal, get cracking.
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/mach_info/fork>)
+1. Fork it (<https://github.com/washu/mach_info/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

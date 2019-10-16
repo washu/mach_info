@@ -2,15 +2,7 @@ lib LibC
     alias KernReturnType = Int
     CPU_STATE_MAX = 3
     LOAD_SCALE = 1000
-    PROCESSOR_INFO_MAX = 1024
-    PROCESSOR_SET_INFO_MAX = 1024
-    PROCESSOR_BASIC_INFO     = 1
-    PROCESSOR_CPU_LOAD_INFO  = 2
-    PROCESSOR_SET_SCHED_INFO = 3
-    PROCESSOR_SET_BASIC_INFO = 5
-    HOST_PRIORITY_INFO	 = 5
-    HOST_EXTMOD_INFO64 = 5
-    HOST_EXPIRED_TASK_INFO = 6
+
 
     KERN_SUCCESS = 0
     KERN_INVALID_ADDRESS = 1
@@ -23,6 +15,7 @@ lib LibC
         HOST_BASIC_INFO  	 = 1
         HOST_SCHED_INFO	     = 3
         HOST_RESOURCE_SIZES	 = 4
+        HOST_PRIORITY_INFO	 = 5
     end
 
     enum HostStatisticsFlavor
@@ -33,17 +26,26 @@ lib LibC
 
     enum HostStatistics64Flavor
         HOST_VM_INFO64 = 4
+        HOST_EXTMOD_INFO64 = 5
+    end
+
+    enum ProcessorInfoFlavor
+        PROCESSOR_BASIC_INFO     = 1
+        PROCESSOR_CPU_LOAD_INFO  = 2
+    end
+
+    enum ProcessorSetInfoFlavor
+        PROCESSOR_SET_SCHED_INFO = 3
+        PROCESSOR_SET_BASIC_INFO = 5
     end
 
     type MachPortT = UInt
     # Host info
     alias HostT = MachPortT
     alias HostPrivT = MachPortT
-    alias HostSecurityT = MachPortT
     # Processor Info
     alias ProcessorT = MachPortT
     alias ProcessorSetT = MachPortT
-    alias ProcessorSetControlT = MachPortT
 
     alias NaturalT = UInt
     alias CpuTypeT = UInt
@@ -173,6 +175,15 @@ lib LibC
 	    total_uncompressed_pages_in_compressor : UInt64
     end
 
+    struct VmExtmodStatistics
+        task_for_pid_count : Int64
+        task_for_pid_caller_count : Int64
+        thread_creation_count : Int64
+        thread_creation_caller_count : Int64
+        thread_set_state_count : Int64
+        thread_set_state_caller_count : Int64
+    end
+
     HOST_BASIC_INFO_COUNT = sizeof(HostBasicInfo) / sizeof(Int)
     HOST_SCHED_INFO_COUNT = sizeof(HostSchedInfo) / sizeof(Int)
     HOST_RESOURCE_SIZES_COUNT = sizeof(KernelResourceSizes) / sizeof(Int)
@@ -185,6 +196,7 @@ lib LibC
     HOST_VM_INFO_COUNT = sizeof(VmStatistics) / sizeof(Int)
     PROCESSOR_BASIC_INFO_COUNT = sizeof(ProcessorBasicInfo) / sizeof(NaturalT)
     HOST_VM_INFO64_COUNT = sizeof(VmStatistics64) / sizeof(Int)
+    HOST_EXTMOD_INFO64_COUNT = sizeof(VmExtmodStatistics) / sizeof(Int)
     fun task_self =  mach_task_self() : MachPortT
     fun deallocate_task = vm_deallocate(target_task: MachPortT, address: ULong, size: ULong);
 end

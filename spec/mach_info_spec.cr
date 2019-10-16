@@ -91,6 +91,13 @@ describe MachInfo do
     info = MachInfo.host_scheduling_info
     info.min_timeout.should be > 1
   end
+
+  it "should provide a top level api for priority info" do
+    info = MachInfo.host_priority_info
+    info.kernel_priority.should be > 50
+  end
+
+
   it "should provide a top level api for basic_host_info" do
     info = MachInfo.basic_host_info
     info.max_cpus.should eq(6)
@@ -114,6 +121,11 @@ describe MachInfo do
     info.free_count.should be > 1
   end
 
+  it "should provide a top level api for vm_info_64_extended" do
+    info = MachInfo.vm_info_64_extended
+    info.task_for_pid_count.should be > 1
+  end
+
   it "should provide a top level api for cpu_laod_info" do
     info = MachInfo.host_cpu_load_info
     info.cpu_ticks[0].should be > 1
@@ -122,7 +134,7 @@ describe MachInfo do
   it "should get a list of processors" do
     port = LibC.host_new
     count = 0
-    rc = LibC.processor_info_new(port,LibC::PROCESSOR_BASIC_INFO, out pCount, out plist,pointerof(count))
+    rc = LibC.processor_info_new(port,LibC::ProcessorInfoFlavor::PROCESSOR_BASIC_INFO, out pCount, out plist,pointerof(count))
     rc.should eq 0
     list = MachInfo::MachArrayPtrConvertor(LibC::ProcessorBasicInfo).cast_to_array(plist,pCount)
     (0..list.size-1).each do |i|
@@ -133,7 +145,7 @@ describe MachInfo do
   it "should get a list of cpu load by processor" do
     port = LibC.host_new
     count = 0
-    rc = LibC.processor_info_new(port,LibC::PROCESSOR_CPU_LOAD_INFO, out pCount, out plist,pointerof(count))
+    rc = LibC.processor_info_new(port,LibC::ProcessorInfoFlavor::PROCESSOR_CPU_LOAD_INFO, out pCount, out plist,pointerof(count))
     rc.should eq 0
     list = MachInfo::MachArrayPtrConvertor(LibC::ProcessorCpuLoadInfo).cast_to_array(plist,pCount)
     (0..list.size-1).each do |i|
@@ -145,7 +157,7 @@ describe MachInfo do
     port = LibC.host_new
     count = LibC::PROCESSOR_SET_BASIC_INFO_COUNT
     LibC.get_default_processor_set(port, out h_port)
-    rc = LibC.processor_set_info_new(h_port,LibC::PROCESSOR_SET_BASIC_INFO, out kport,out host_info_array, pointerof(count))
+    rc = LibC.processor_set_info_new(h_port,LibC::ProcessorSetInfoFlavor::PROCESSOR_SET_BASIC_INFO, out kport,out host_info_array, pointerof(count))
     info = MachInfo::MachArrayPtrConvertor(LibC::ProcessorSetBasicInfo).cast_to(host_info_array)
     info.nil?.should eq(false)
     rc.should eq 0
@@ -156,7 +168,7 @@ describe MachInfo do
     port = LibC.host_new
     count = LibC::PROCESSOR_SET_SCHED_INFO_COUNT
     LibC.get_default_processor_set(port, out h_port)
-    rc = LibC.processor_set_info_new(h_port,LibC::PROCESSOR_SET_SCHED_INFO, out kport,out host_info_array, pointerof(count))
+    rc = LibC.processor_set_info_new(h_port,LibC::ProcessorSetInfoFlavor::PROCESSOR_SET_SCHED_INFO, out kport,out host_info_array, pointerof(count))
     info = MachInfo::MachArrayPtrConvertor(LibC::ProcessorSetSchedInfo).cast_to(host_info_array)
     rc.should eq 0
     info.policies.should be > 1

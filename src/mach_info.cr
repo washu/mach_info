@@ -52,6 +52,16 @@ module MachInfo
     MachInfo::MachArrayPtrConvertor(LibC::HostLoadInfo).cast_to(host_info_array)
   end
 
+  # fetch the host priority info from mach
+  # returns as LibC::HostPriorityInfo struct
+  def self.host_priority_info
+    port = LibC.host_new
+    count = LibC::HOST_PRIORITY_INFO_COUNT
+    rc = LibC.host_info_new(port,LibC::HostInfoFlavor::HOST_PRIORITY_INFO, out host_info_array, pointerof(count))
+    raise KernelErrorException.new("Mach Error:#{rc}") unless rc == LibC::KERN_SUCCESS
+    MachInfo::MachArrayPtrConvertor(LibC::HostPriorityInfo).cast_to(host_info_array)
+  end
+
   # fetch the host vm info from mach
   # returns as LibC::VmStatistics struct
   def self.vm_info
@@ -59,6 +69,7 @@ module MachInfo
     count = LibC::HOST_VM_INFO_COUNT
     rc = LibC.host_statistics_new(port,LibC::HostStatisticsFlavor::HOST_VM_INFO, out host_info_array, pointerof(count))
     raise KernelErrorException.new("Mach Error:#{rc}") unless rc == LibC::KERN_SUCCESS
+    puts count
     MachInfo::MachArrayPtrConvertor(LibC::VmStatistics).cast_to(host_info_array)
   end
 
@@ -85,12 +96,27 @@ module MachInfo
     #MachInfo::MachArrayPtrConvertor(LibC::VmStatistics64).cast_to()
   end
 
+  # fetch the host vm statistics64 info from mach
+  # returns as LibC::VmStatistics64 struct
+  def self.vm_info_64_extended
+    port = LibC.host_new
+    count = LibC::HOST_EXTMOD_INFO64_COUNT
+    results = LibC::VmStatistics64.new
+    converted = LibC::VmExtmodStatistics.new
+    rc = LibC.host_statistics64_new(port,LibC::HostStatistics64Flavor::HOST_EXTMOD_INFO64,pointerof(results),pointerof(count))
+    raise KernelErrorException.new("Mach Error:#{rc}") unless rc == LibC::KERN_SUCCESS
+    # we stack allocated the struct, no need to de-allocate
+    pointerof(converted).copy_from(pointerof(results).as(Pointer(LibC::VmExtmodStatistics)),1)
+    converted
+    #MachInfo::MachArrayPtrConvertor(LibC::VmStatistics64).cast_to()
+  end
+
   # fetch the basic processor info list from mach
   # returns an array of LibC::ProcessorBasicInfo struct
   def self.basic_processor_info
     port = LibC.host_new
     count = 0
-    rc = LibC.processor_info_new(port,LibC::PROCESSOR_BASIC_INFO, out pCount, out plist,pointerof(count))
+    rc = LibC.processor_info_new(port,LibC::ProcessorInfoFlavor::PROCESSOR_BASIC_INFO, out pCount, out plist,pointerof(count))
     raise KernelErrorException.new("Mach Error:#{rc}") unless rc == LibC::KERN_SUCCESS
     MachInfo::MachArrayPtrConvertor(LibC::ProcessorBasicInfo).cast_to_array(plist,pCount)
   end
@@ -100,7 +126,7 @@ module MachInfo
   def self.processor_load_info
     port = LibC.host_new
     count = 0
-    rc = LibC.processor_info_new(port,LibC::PROCESSOR_CPU_LOAD_INFO, out pCount, out plist,pointerof(count))
+    rc = LibC.processor_info_new(port,LibC::ProcessorInfoFlavor::PROCESSOR_CPU_LOAD_INFO, out pCount, out plist,pointerof(count))
     raise KernelErrorException.new("Mach Error:#{rc}") unless rc == LibC::KERN_SUCCESS
     MachInfo::MachArrayPtrConvertor(LibC::ProcessorCpuLoadInfo).cast_to_array(plist,pCount)
   end
@@ -111,7 +137,7 @@ module MachInfo
     port = LibC.host_new
     count = LibC::PROCESSOR_SET_BASIC_INFO_COUNT
     LibC.get_default_processor_set(port, out h_port)
-    rc = LibC.processor_set_info_new(h_port,LibC::PROCESSOR_SET_BASIC_INFO, out kport,out host_info_array, pointerof(count))
+    rc = LibC.processor_set_info_new(h_port,LibC::ProcessorSetInfoFlavor::PROCESSOR_SET_BASIC_INFO, out kport,out host_info_array, pointerof(count))
     raise KernelErrorException.new("Mach Error:#{rc}") unless rc == LibC::KERN_SUCCESS
     MachInfo::MachArrayPtrConvertor(LibC::ProcessorSetBasicInfo).cast_to(host_info_array)
   end
@@ -122,7 +148,7 @@ module MachInfo
     port = LibC.host_new
     count = LibC::PROCESSOR_SET_SCHED_INFO_COUNT
     LibC.get_default_processor_set(port, out h_port)
-    rc = LibC.processor_set_info_new(h_port,LibC::PROCESSOR_SET_SCHED_INFO, out kport,out host_info_array, pointerof(count))
+    rc = LibC.processor_set_info_new(h_port,LibC::ProcessorSetInfoFlavor::PROCESSOR_SET_SCHED_INFO, out kport,out host_info_array, pointerof(count))
     raise KernelErrorException.new("Mach Error:#{rc}") unless rc == LibC::KERN_SUCCESS
     MachInfo::MachArrayPtrConvertor(LibC::ProcessorSetSchedInfo).cast_to(host_info_array)
   end

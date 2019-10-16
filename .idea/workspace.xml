@@ -25,6 +25,7 @@
   <component name="ChangeListManager">
     <list default="true" id="72e0330c-5933-4cda-a204-2d1beb44fd66" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spec/mach_info_spec.cr" beforeDir="false" afterPath="$PROJECT_DIR$/spec/mach_info_spec.cr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mach/host_info.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/host_info.cr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mach/processor_info.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/processor_info.cr" afterDir="false" />
@@ -136,7 +137,7 @@
       <updated>1571065556907</updated>
       <workItem from="1571065558159" duration="20471000" />
       <workItem from="1571158765102" duration="6879000" />
-      <workItem from="1571234155209" duration="4717000" />
+      <workItem from="1571234155209" duration="9190000" />
     </task>
     <task id="LOCAL-00001" summary="send pass">
       <created>1571156675304</created>
@@ -152,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571172560177</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="third pass">
+      <created>1571241244840</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1571241244840</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,6 +181,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="send pass" />
-    <option name="LAST_COMMIT_MESSAGE" value="send pass" />
+    <MESSAGE value="third pass" />
+    <option name="LAST_COMMIT_MESSAGE" value="third pass" />
   </component>
 </project>
