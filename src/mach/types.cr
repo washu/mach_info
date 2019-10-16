@@ -1,11 +1,5 @@
 lib LibC
     alias KernReturnType = Int
-    KERN_SUCCESS = 0
-    KERN_INVALID_ADDRESS = 1
-    KERN_PROTECTION_FAILURE = 2
-    KERN_NO_SPACE = 3
-    KERN_INVALID_ARGUMENT = 4
-    KERN_FAILURE = 5
     CPU_STATE_MAX = 3
     LOAD_SCALE = 1000
     PROCESSOR_INFO_MAX = 1024
@@ -14,18 +8,34 @@ lib LibC
     PROCESSOR_CPU_LOAD_INFO  = 2
     PROCESSOR_SET_SCHED_INFO = 3
     PROCESSOR_SET_BASIC_INFO = 5
-    HOST_BASIC_INFO  	 = 1
-    HOST_SCHED_INFO	     = 3
-    HOST_RESOURCE_SIZES	 = 4
     HOST_PRIORITY_INFO	 = 5
-    HOST_LOAD_INFO = 1
-    HOST_VM_INFO = 2
-    HOST_CPU_LOAD_INFO = 3
-    HOST_VM_INFO64 = 4
     HOST_EXTMOD_INFO64 = 5
     HOST_EXPIRED_TASK_INFO = 6
 
-    alias MachPortT = UInt
+    KERN_SUCCESS = 0
+    KERN_INVALID_ADDRESS = 1
+    KERN_PROTECTION_FAILURE = 2
+    KERN_NO_SPACE = 3
+    KERN_INVALID_ARGUMENT = 4
+    KERN_FAILURE = 5
+
+    enum HostInfoFlavor
+        HOST_BASIC_INFO  	 = 1
+        HOST_SCHED_INFO	     = 3
+        HOST_RESOURCE_SIZES	 = 4
+    end
+
+    enum HostStatisticsFlavor
+        HOST_LOAD_INFO = 1
+        HOST_VM_INFO = 2
+        HOST_CPU_LOAD_INFO = 3
+    end
+
+    enum HostStatistics64Flavor
+        HOST_VM_INFO64 = 4
+    end
+
+    type MachPortT = UInt
     # Host info
     alias HostT = MachPortT
     alias HostPrivT = MachPortT
@@ -44,6 +54,10 @@ lib LibC
     struct ArrayPtr
         buffer : UInt*
     end
+
+    alias HostInfoArrayPtr = ArrayPtr
+    alias ProcessInfoArrayPtr = ArrayPtr
+    alias ProcessSetInfoArrayPtr = ArrayPtr
 
     struct ProcessorBasicInfo
 	    cpu_type : CpuTypeT
@@ -174,30 +188,27 @@ lib LibC
     fun task_self =  mach_task_self() : MachPortT
     fun deallocate_task = vm_deallocate(target_task: MachPortT, address: ULong, size: ULong);
 end
-class PtrArray(T) < Array(T)
-    def initialize(xbuffer : LibC::ArrayPtr, x_size : Int)
-        @capacity = x_size.to_i
-        @size = x_size.to_i
-        @buffer = Pointer(T).malloc(x_size.to_i)
-        @buffer.copy_from(xbuffer.buffer.as(Pointer(T)),x_size.to_i)
-        LibC.deallocate_task(LibC.task_self(),xbuffer.buffer.as(Pointer(T)).address, x_size.to_i * sizeof(T))
-    end
-    def push(value : T)
-        raise "Read Only Array"
-    end
-end
+
 module MachInfo
+    # Pointer Helper Class
+    # This class performs some memory management for out array pointers. The convertor ensures
+    # we dont leak kernel memory, but copying the array to our own pointer, and calling vm_deallocate
+    # back on the orignal pointer, yes this is a copy and used more ram than needed, but it ensures
+    # vm alocated memory is properly freed.
     class MachArrayPtrConvertor(T)
         # cast routine will ensure the passed in pointer is de-allocated and a copy made for the return value
-        def cast_to(ptr : LibC::ArrayPtr)
-            x = Pointer(T).malloc(1)
+        def self.cast_to(ptr : LibC::ArrayPtr)
+            m = T.new
+            x = pointerof(m)
             yptr = pointerof(ptr).as(Pointer(T))
             x.copy_from(yptr,1)
             LibC.deallocate_task(LibC.task_self(),ptr.buffer.as(Pointer(T)).address, sizeof(T))
-            x.value
+            m
         end
-        def cast_to_array(ptr : LibC::ArrayPtr, length : Int = 0)
-            PtrArray(T).new(ptr, length)
+        def self.cast_to_array(ptr : LibC::ArrayPtr, length : Int = 0)
+            x =Array(T).new(length)
+            x.to_unsafe.copy_from(ptr.buffer.as(Pointer(T)),length)
+            x
         end
     end
 end

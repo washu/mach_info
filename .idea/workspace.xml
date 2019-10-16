@@ -25,14 +25,11 @@
   <component name="ChangeListManager">
     <list default="true" id="72e0330c-5933-4cda-a204-2d1beb44fd66" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shard.yml" beforeDir="false" afterPath="$PROJECT_DIR$/shard.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spec/libc_mach_spec.cr" beforeDir="false" afterPath="$PROJECT_DIR$/spec/mach_info_spec.cr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spec/spec_helper.cr" beforeDir="false" afterPath="$PROJECT_DIR$/spec/spec_helper.cr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/libc_mach.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach_info.cr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spec/mach_info_spec.cr" beforeDir="false" afterPath="$PROJECT_DIR$/spec/mach_info_spec.cr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mach/host_info.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/host_info.cr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mach/processor_info.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/processor_info.cr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mach/types.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach/types.cr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mach_info.cr" beforeDir="false" afterPath="$PROJECT_DIR$/src/mach_info.cr" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -138,7 +135,8 @@
       <option name="presentableId" value="Default" />
       <updated>1571065556907</updated>
       <workItem from="1571065558159" duration="20471000" />
-      <workItem from="1571158765102" duration="6869000" />
+      <workItem from="1571158765102" duration="6879000" />
+      <workItem from="1571234155209" duration="4717000" />
     </task>
     <task id="LOCAL-00001" summary="send pass">
       <created>1571156675304</created>
@@ -147,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571156675304</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="send pass">
+      <created>1571172560177</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1571172560177</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
